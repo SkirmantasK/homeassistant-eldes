@@ -36,7 +36,12 @@ class EldesEventEntity(EldesDeviceEntity, EventEntity):
     """Fires HA events for each new Eldes alarm event."""
 
     _attr_event_types = EVENT_TYPES
-    _last_event_count = 0
+
+    def __init__(self, client, coordinator, device_index):
+        super().__init__(client, coordinator, device_index)
+        # None until the first refresh, so events already in the list at
+        # startup are not replayed as new.
+        self._seen_events = None
 
     @property
     def unique_id(self):
@@ -52,12 +57,25 @@ class EldesEventEntity(EldesDeviceEntity, EventEntity):
 
     @callback
     def _handle_coordinator_update(self) -> None:
-        """Fire events for new entries since last update."""
-        events = self.data.get("events", [])
-        current_count = len(events)
+        """Fire events for new entries since last update.
 
-        if current_count > self._last_event_count and self._last_event_count > 0:
-            new_events = events[: current_count - self._last_event_count]
+        The cloud returns a fixed-size window of the newest events, so new
+        entries are found by identity rather than by the list growing.
+        """
+        events = self.data.get("events", [])
+        if not events:
+            # A failed fetch yields an empty list; keep what we have seen.
+            self.async_write_ha_state()
+            return
+
+        fingerprints = [_fingerprint(event) for event in events]
+
+        if self._seen_events is not None:
+            new_events = [
+                event for event, fp in zip(events, fingerprints)
+                if fp not in self._seen_events
+            ]
+            # The API lists newest first; fire in chronological order.
             for event in reversed(new_events):
                 event_type = EVENT_CATEGORIES.get(
                     event.get("type", ""), "other"
@@ -72,5 +90,18 @@ class EldesEventEntity(EldesDeviceEntity, EventEntity):
                     },
                 )
 
-        self._last_event_count = current_count
+        self._seen_events = set(fingerprints)
         self.async_write_ha_state()
+
+
+def _fingerprint(event: dict) -> tuple:
+    """Identify an event across refreshes."""
+    if event.get("id") is not None:
+        return ("id", event["id"])
+    return (
+        tuple(event.get("deviceTime") or []),
+        event.get("type", ""),
+        event.get("message", ""),
+        event.get("partition", ""),
+        event.get("zone", ""),
+    )

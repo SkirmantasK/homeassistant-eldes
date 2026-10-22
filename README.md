@@ -3,7 +3,7 @@
 A custom Home Assistant integration for [Eldes](https://eldesalarms.com/) security systems (ESIM364, Pitbull, etc.) via the Eldes Cloud API. It adds arming with zone bypass and near-instant updates through the same cloud WebSocket the Eldes mobile app uses.
 
 - **Domain:** `eldes_alarm`
-- **Version:** 1.0.0
+- **Version:** 1.1.0
 - **IoT class:** cloud polling + cloud push
 
 ## Features
@@ -154,6 +154,7 @@ logger:
 ```
 
 - **Login failed:** check the email and password in the Eldes Cloud app. A wrong PIN does not stop you logging in, but arm/disarm commands will fail.
+- **Event Feed shows "unknown":** this is normal until the first new panel event arrives after setup. Events already in the history are not replayed. Its state is the time of the last event.
 - **Slow updates:** check the *Cloud Push* diagnostic sensor. If it shows disconnected, read its `last_error` attribute.
 
 ## Credits

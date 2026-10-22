@@ -1,12 +1,17 @@
 {
   "domain": "eldes_alarm",
   "name": "Eldes Alarm with Bypass",
-  "codeowners": ["@SkirmantasK"],
+  "codeowners": [
+    "@SkirmantasK"
+  ],
   "config_flow": true,
-  "dependencies": ["http"],
+  "dependencies": [
+    "http"
+  ],
   "documentation": "https://github.com/SkirmantasK/homeassistant-eldes",
+  "integration_type": "hub",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/SkirmantasK/homeassistant-eldes/issues",
-  "requirements": ["aiohttp>=3.8.0"],
+  "requirements": [],
   "version": "1.1.0"
 }

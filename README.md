@@ -161,4 +161,8 @@ logger:
 
 Based on the Eldes integration by [@augustas2](https://github.com/augustas2) and [@simie7](https://github.com/simie7).
 
+## License
+
+[MIT](LICENSE), inherited from the original project.
+
 This project is not affiliated with or endorsed by ELDES UAB.

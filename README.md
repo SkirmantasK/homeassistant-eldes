@@ -3,7 +3,7 @@
 A custom Home Assistant integration for [Eldes](https://eldesalarms.com/) security systems (ESIM364, Pitbull, etc.) via the Eldes Cloud API. It adds arming with zone bypass and near-instant updates through the same cloud WebSocket the Eldes mobile app uses.
 
 - **Domain:** `eldes_alarm`
-- **Version:** 1.1.0
+- **Version:** 1.1.1
 - **IoT class:** cloud polling + cloud push
 
 ## Features

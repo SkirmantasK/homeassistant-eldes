@@ -1,0 +1,12 @@
+{
+  "domain": "eldes_alarm",
+  "name": "Eldes Alarm with Bypass",
+  "codeowners": ["@augustas2", "@simie7"],
+  "config_flow": true,
+  "dependencies": ["http"],
+  "documentation": "https://github.com/simie7/eldes/blob/master/README.md",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/simie7/eldes/issues",
+  "requirements": ["aiohttp>=3.8.0"],
+  "version": "2.2.0"
+}

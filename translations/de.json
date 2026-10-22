@@ -1,0 +1,53 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Eldes Cloud Service",
+        "description": "Bitte melden Sie sich bei Ihrem Eldes-Konto an.",
+        "data": {
+          "username": "E-Mail",
+          "password": "Passwort",
+          "pin": "PIN-Code"
+        }
+      },
+      "select_device": {
+        "title": "Wählen Sie ein Gerät/Standort aus",
+        "data": {
+          "device": "Gerät"
+        }
+      }
+    },
+    "error": {
+      "auth_failed": "Anmeldung fehlgeschlagen. Bitte überprüfen Sie Ihre Zugangsdaten.",
+      "no_devices": "Keine Geräte in Ihrem Eldes-Konto gefunden.",
+      "device_not_found": "Das ausgewählte Gerät wurde nicht gefunden."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Eldes-Integration konfigurieren",
+        "description": "Wählen Sie die Scharfschaltmodi, Cloud-Push und das Abfrageintervall.",
+        "data": {
+          "scan_interval": "Scan-Intervall (Sekunden)",
+          "events_list_size": "Ereignislisten-Größe",
+          "pin": "PIN-Code",
+          "arm_modes": "Scharfschaltmodi im Bedienfeld",
+          "push_enabled": "Sofortige Updates per Cloud-Push (WebSocket)",
+          "push_scan_interval": "Abfrageintervall bei aktivem Push (Sekunden)"
+        }
+      }
+    },
+    "error": {
+      "arm_modes_empty": "Mindestens einen Modus wählen"
+    }
+  },
+  "selector": {
+    "arm_modes": {
+      "options": {
+        "arm_away": "Abwesend (voll scharf)",
+        "arm_home": "Zuhause (intern scharf)"
+      }
+    }
+  }
+}

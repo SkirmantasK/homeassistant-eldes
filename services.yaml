@@ -1,0 +1,52 @@
+arm_with_bypass:
+  name: Arm Away with Zone Bypass
+  description: Arm the alarm in away mode, bypassing specified zones.
+  target:
+    entity:
+      domain: alarm_control_panel
+      integration: eldes_alarm
+  fields:
+    bypass_zones:
+      name: Bypass Zones
+      description: List of zone IDs to bypass when arming.
+      required: false
+      example: "[7, 12]"
+      selector:
+        object:
+    bypass_all:
+      name: Bypass All Violated
+      description: Bypass all currently violated zones.
+      required: false
+      default: false
+      selector:
+        boolean:
+
+arm_home_with_bypass:
+  name: Arm Home with Zone Bypass
+  description: Arm the alarm in home/stay mode, bypassing specified zones.
+  target:
+    entity:
+      domain: alarm_control_panel
+      integration: eldes_alarm
+  fields:
+    bypass_zones:
+      name: Bypass Zones
+      description: List of zone IDs to bypass when arming.
+      required: false
+      example: "[7, 12]"
+      selector:
+        object:
+    bypass_all:
+      name: Bypass All Violated
+      description: Bypass all currently violated zones.
+      required: false
+      default: false
+      selector:
+        boolean:
+
+retry_arm_with_bypass:
+  name: Retry Arm with Bypass
+  description: >-
+    Re-arm the partition that last failed, automatically bypassing the
+    zones that were reported as active. Uses stored context from the
+    most recent arm failure (expires after 120 seconds).

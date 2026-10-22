@@ -20,16 +20,25 @@ A custom Home Assistant integration for [Eldes](https://eldesalarms.com/) securi
 
 ## Installation
 
-The repository root is the integration itself. Copy it into your Home Assistant config as `custom_components/eldes_alarm`:
+### HACS (recommended)
 
-```bash
-cd /config/custom_components
-git clone https://github.com/SkirmantasK/homeassistant-eldes.git eldes_alarm
-```
+[![Open your Home Assistant instance and open this repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=SkirmantasK&repository=homeassistant-eldes&category=integration)
 
-Then restart Home Assistant.
+Or add it by hand:
+
+1. In HACS, open the **⋮** menu → **Custom repositories**.
+2. Add `https://github.com/SkirmantasK/homeassistant-eldes` with type **Integration**.
+3. Search for **Eldes Alarm with Bypass**, download it, and restart Home Assistant.
+
+### Manual
+
+Copy `custom_components/eldes_alarm` from this repository into `/config/custom_components/` and restart Home Assistant.
+
+Requires Home Assistant 2024.12 or newer.
 
 ## Configuration
+
+[![Open your Home Assistant instance and start setting up the Eldes integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=eldes_alarm)
 
 1. Go to **Settings → Devices & Services → Add Integration** and search for **Eldes Alarm with Bypass**.
 2. Enter your Eldes Cloud email, password and the alarm user **PIN**. The PIN is sent along with arm/disarm commands.
@@ -130,8 +139,8 @@ automation:
 
 ## How it works
 
-- **REST** (`core/eldes_cloud.py`): calls `https://cloud.eldesalarms.com:8083/api/` for login, token renewal, device info, partitions, zones, outputs, temperatures, events, faults and commands. A `DataUpdateCoordinator` polls it. If one endpoint fails, its last good value is kept, so a brief outage doesn't make entities unavailable.
-- **Push** (`core/eldes_ws.py`): keeps a STOMP session open on `wss://cloud.eldesalarms.com:8083/eldes/websocket` and subscribes to `/user/queue/device/event` and `/user/queue/device/response`. Each message triggers a coordinator refresh and an `eldes_alarm_cloud_event`. The session reconnects with exponential backoff (5–300 s) and is reopened with a fresh token every hour.
+- **REST** (`custom_components/eldes_alarm/core/eldes_cloud.py`): calls `https://cloud.eldesalarms.com:8083/api/` for login, token renewal, device info, partitions, zones, outputs, temperatures, events, faults and commands. A `DataUpdateCoordinator` polls it. If one endpoint fails, its last good value is kept, so a brief outage doesn't make entities unavailable.
+- **Push** (`custom_components/eldes_alarm/core/eldes_ws.py`): keeps a STOMP session open on `wss://cloud.eldesalarms.com:8083/eldes/websocket` and subscribes to `/user/queue/device/event` and `/user/queue/device/response`. Each message triggers a coordinator refresh and an `eldes_alarm_cloud_event`. The session reconnects with exponential backoff (5–300 s) and is reopened with a fresh token every hour.
 - **Arm feedback:** each arm command opens a short-lived WebSocket to read the command response. That response lists any active zones, which feed `eldes_alarm_arm_failed` and the retry service.
 
 ## Troubleshooting
